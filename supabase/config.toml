@@ -1,4 +1,4 @@
-project_id = "sjmedipoint"
+project_id = "medical-hub"
 
 # Called by Safaricom, not by a logged-in user, so JWT check must be off.
 [functions.mpesa-callback]
