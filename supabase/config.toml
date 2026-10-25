@@ -1,0 +1,12 @@
+project_id = "sjmedipoint"
+
+# Called by Safaricom, not by a logged-in user, so JWT check must be off.
+[functions.mpesa-callback]
+verify_jwt = false
+
+[functions.till-payments]
+verify_jwt = false
+
+# Public page for patients: no login, so JWT check must be off.
+[functions.public-booking]
+verify_jwt = false

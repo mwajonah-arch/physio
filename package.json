@@ -1,0 +1,14 @@
+{
+  "name": "medipoint",
+  "version": "1.1.0",
+  "description": "Medipoint Point of Sale System",
+  "private": true,
+  "scripts": {
+    "dev": "npx --yes http-server . -p 3000 -c-1",
+    "build": "node build.js",
+    "preview": "npx --yes http-server dist -p 3000 -c-1"
+  },
+  "devDependencies": {
+    "esbuild": "^0.21.5"
+  }
+}

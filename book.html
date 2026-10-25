@@ -1,0 +1,264 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Book a physiotherapy visit</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@700;800&family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{--teal:#0F4C5C;--teal-light:#2A7F8E;--teal-pale:#DCEEEC;--sun:#F5B335;--bg:#EEF5F5;--ink:#12262C;--muted:#4E6870;--border:#CFE0E0;--red:#B8323F;--red-pale:#FBE5E7;--amber-pale:#FDEBDD}
+  *{box-sizing:border-box}
+  body{margin:0;font-family:'Figtree',system-ui,sans-serif;font-size:16px;background:var(--bg);color:var(--ink);line-height:1.5}
+  .top{position:sticky;top:0;z-index:5;background:rgba(251,253,253,.94);backdrop-filter:blur(8px);border-bottom:1px solid var(--border)}
+  .top div{max-width:560px;margin:0 auto;padding:0 16px;height:62px;display:flex;justify-content:space-between;align-items:center;gap:12px}
+  .top a{text-decoration:none}.top .brand{font:800 19px 'Bricolage Grotesque',sans-serif;color:var(--teal)}
+  .top .back{font-size:14px;font-weight:600;color:var(--teal);border:2px solid var(--teal);border-radius:10px;padding:6px 12px}
+  .band{position:relative;height:250px;margin-bottom:-250px;background:var(--teal);overflow:hidden}
+  .band::before{content:"";position:absolute;right:-120px;top:-150px;width:380px;height:380px;border-radius:50%;background:#14606F}
+  .band svg{position:absolute;left:0;bottom:-1px;width:100%;height:44px}
+  .wrap{position:relative;z-index:1}
+  #app header{padding:26px 0 28px}
+  #app header h1{color:#fff;font-size:clamp(32px,7vw,46px)}
+  #app header .sub{color:#C9E0E3;font-size:16px}
+  .card{box-shadow:0 10px 28px rgba(18,38,44,.07)}
+  .wrap{max-width:560px;margin:0 auto;padding:22px 16px 48px}
+  header{padding:4px 0 18px}
+  h1{font-family:'Bricolage Grotesque',sans-serif;font-size:32px;line-height:1.1;letter-spacing:-.02em;margin:0 0 6px}
+  .sub{color:var(--muted);font-size:15px;margin:0}
+  .card{background:#fff;border:1px solid var(--border);border-radius:14px;padding:18px;margin-bottom:14px}
+  .card h2{font-family:'Bricolage Grotesque',sans-serif;font-size:19px;margin:0 0 14px;display:flex;align-items:center;gap:10px}
+  .num{width:26px;height:26px;border-radius:50%;background:var(--teal);color:#fff;font-size:13px;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0}
+  .opts{display:grid;gap:8px}
+  .opt{text-align:left;width:100%;padding:13px 14px;border-radius:11px;border:1px solid var(--border);background:#fff;font:inherit;color:inherit;cursor:pointer;display:flex;justify-content:space-between;gap:10px;align-items:center}
+  .opt:hover{border-color:var(--teal-light)}
+  .opt[aria-pressed="true"]{border-color:var(--teal);background:var(--teal-pale);box-shadow:inset 0 0 0 1px var(--teal)}
+  .opt b{font-weight:600;font-size:16px;display:block}
+  .opt small{color:var(--muted);font-size:14px}
+  .opt .price{font-weight:600;font-size:15px;white-space:nowrap}
+  .row3{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+  .row3 .opt{flex-direction:column;text-align:center;justify-content:center;padding:12px 6px;font-size:15px;font-weight:500}
+  label{display:block;font-size:14px;font-weight:600;margin:14px 0 5px}
+  label:first-child{margin-top:0}
+  input,textarea{width:100%;padding:12px;border-radius:10px;border:1px solid var(--border);font:inherit;font-size:16px;background:#fff;color:var(--ink)}
+  :focus-visible{outline:3px solid var(--sun);outline-offset:2px}
+  .slots{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:12px}
+  .slot{padding:11px 0;border-radius:9px;border:1px solid var(--border);background:#fff;font:inherit;font-size:15px;font-weight:500;cursor:pointer}
+  .slot:hover{border-color:var(--teal-light)}
+  .slot[aria-pressed="true"]{background:var(--teal);border-color:var(--teal);color:#fff}
+  .hint{font-size:14px;color:var(--muted);margin:8px 0 0}
+  .msg{font-size:14.5px;padding:10px 12px;border-radius:10px;margin-top:12px}
+  .msg.err{background:var(--red-pale);color:var(--red)}
+  .msg.info{background:var(--amber-pale);color:#5C3A12}
+  .go{width:100%;padding:15px;border:2px solid var(--sun);border-radius:12px;background:var(--sun);color:var(--ink);font:inherit;font-weight:700;font-size:17px;cursor:pointer}
+  .go:disabled{background:#E4E9E9;border-color:#E4E9E9;color:#7A8C90;cursor:not-allowed}
+  .wa{display:block;text-align:center;text-decoration:none;padding:14px;border-radius:12px;background:#1FA855;color:#fff;font-weight:600;margin-top:14px}
+  .ok-icon{width:52px;height:52px;border-radius:50%;background:var(--teal-pale);color:var(--teal);display:flex;align-items:center;justify-content:center;font-size:28px;margin-bottom:12px}
+  dl{margin:14px 0 0;display:grid;grid-template-columns:auto 1fr;gap:6px 14px;font-size:15px}
+  dt{color:var(--muted)}dd{margin:0;font-weight:500}
+  .hp{position:absolute;left:-9999px;width:1px;height:1px;opacity:0}
+  .loading{text-align:center;color:var(--muted);padding:60px 0}
+  @media(prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<div class="top"><div><a class="brand" id="brand" href="site.html">Physio Care</a><a class="back" href="site.html">Back to website</a></div></div>
+<div class="band" aria-hidden="true"><svg viewBox="0 0 1440 60" preserveAspectRatio="none"><path d="M0 34C240 74 480 0 720 26S1200 64 1440 20V60H0Z" fill="#EEF5F5"/></svg></div>
+<div class="wrap" id="app"><div class="loading">Loading…</div></div>
+
+<script src="config.js"></script>
+<script>
+(function () {
+  var app = document.getElementById('app');
+  var cfg = { url: window.SUPABASE_URL, key: window.SUPABASE_ANON_KEY };
+  var state = { info: null, service: null, visitType: '', date: '', time: '', slots: null, slotsMsg: '', loadingSlots: false, sending: false, error: '', done: null };
+
+  function h(tag, attrs) {
+    var el = document.createElement(tag);
+    attrs = attrs || {};
+    Object.keys(attrs).forEach(function (k) {
+      if (k === 'text') el.textContent = attrs[k];
+      else if (k.slice(0, 2) === 'on') el.addEventListener(k.slice(2), attrs[k]);
+      else if (attrs[k] !== false && attrs[k] != null) el.setAttribute(k, attrs[k] === true ? '' : attrs[k]);
+    });
+    (function add(list) {
+      list.forEach(function (c) {
+        if (c == null || c === false) return;
+        if (Array.isArray(c)) { add(c); return; }
+        el.appendChild(typeof c === 'string' ? document.createTextNode(c) : c);
+      });
+    })(Array.prototype.slice.call(arguments, 2));
+    return el;
+  }
+
+  function api(body) {
+    var ctrl = new AbortController();
+    var t = setTimeout(function () { ctrl.abort(); }, 20000);
+    return fetch(cfg.url + '/functions/v1/public-booking', {
+      method: 'POST', signal: ctrl.signal,
+      headers: { 'Content-Type': 'application/json', apikey: cfg.key, Authorization: 'Bearer ' + cfg.key },
+      body: JSON.stringify(body)
+    }).then(function (r) { return r.json().catch(function () { return {}; }).then(function (d) { return { ok: r.ok, status: r.status, data: d }; }); })
+      .catch(function () { return { ok: false, status: 0, data: { error: 'Could not reach the server. Check your internet and try again.' } }; })
+      .then(function (r) { clearTimeout(t); return r; });
+  }
+
+  function money(n) { return state.info.currency + ' ' + Number(n).toLocaleString('en-KE'); }
+  function today() { var d = new Date(); return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0'); }
+  function plusDays(n) { var d = new Date(); d.setDate(d.getDate() + n); return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0'); }
+  function prettyDate(s) { return new Date(s + 'T12:00:00').toLocaleDateString('en-KE', { weekday: 'long', day: 'numeric', month: 'long' }); }
+  var VISIT = { home: 'Home visit', hospital: 'Hospital visit', shop: 'At the shop' };
+
+  function loadSlots() {
+    state.slots = null; state.slotsMsg = ''; state.time = '';
+    if (!state.service || !state.date) { render(); return; }
+    state.loadingSlots = true; render();
+    var asked = state.date + '|' + state.service.id;
+    api({ action: 'slots', serviceId: state.service.id, date: state.date }).then(function (r) {
+      if (asked !== state.date + '|' + state.service.id) return; // user changed their mind meanwhile
+      state.loadingSlots = false;
+      if (!r.ok) state.slotsMsg = r.data.error || 'Could not load times.';
+      else if (r.data.closed) state.slotsMsg = 'We are closed on that day. Please pick another.';
+      else if (!r.data.slots.length) state.slotsMsg = 'No free times that day. Please try another date.';
+      else state.slots = r.data.slots;
+      render();
+    });
+  }
+
+  function submit() {
+    var f = app.querySelector('form');
+    var v = function (n) { return f.elements[n] ? f.elements[n].value : ''; };
+    state.error = ''; state.sending = true; render();
+    api({
+      action: 'request', serviceId: state.service.id, date: state.date, time: state.time, visitType: state.visitType,
+      name: v('name'), phone: v('phone'), location: v('location'), notes: v('notes'), website: v('website')
+    }).then(function (r) {
+      state.sending = false;
+      if (r.ok && r.data.ok) {
+        state.done = { reference: r.data.reference, name: v('name') };
+        window.scrollTo(0, 0);
+      } else {
+        state.error = r.data.error || 'Could not send your request.';
+        if (r.data.taken) loadSlots();
+      }
+      render();
+    });
+  }
+
+  function waLink() {
+    var digits = String(state.info.phone || '').replace(/\D/g, '');
+    if (!digits) return null;
+    if (digits.charAt(0) === '0') digits = '254' + digits.slice(1);
+    else if (digits.length === 9) digits = '254' + digits;
+    var d = state.done;
+    var text = 'Hello, I have requested a ' + state.service.name + ' on ' + prettyDate(state.date) + ' at ' + state.time + '. Reference ' + d.reference + '. Name: ' + d.name + '.';
+    return 'https://wa.me/' + digits + '?text=' + encodeURIComponent(text);
+  }
+
+  function renderDone() {
+    var d = state.done, link = waLink();
+    var dl = h('dl', {},
+      h('dt', { text: 'Service' }), h('dd', { text: state.service.name }),
+      h('dt', { text: 'When' }), h('dd', { text: prettyDate(state.date) + ' at ' + state.time }),
+      h('dt', { text: 'Where' }), h('dd', { text: VISIT[state.visitType] }),
+      h('dt', { text: 'Reference' }), h('dd', { text: d.reference }));
+    return h('div', { class: 'wrap' },
+      h('div', { class: 'card' },
+        h('div', { class: 'ok-icon', text: '✓' }),
+        h('h1', { text: 'Request sent' }),
+        h('p', { class: 'sub', text: 'Thank you, ' + d.name + '. This is a request, not a confirmed booking yet. We will confirm the time with you shortly.' }),
+        dl,
+        state.visitType !== 'shop' ? h('p', { class: 'hint', text: 'Any travel charge will be confirmed when we reply.' }) : null,
+        link ? h('a', { class: 'wa', href: link, target: '_blank', rel: 'noopener', text: 'Message us on WhatsApp' }) : null,
+        link ? h('p', { class: 'hint', text: 'Optional: sending this message helps us find your request quickly.' }) : null));
+  }
+
+  function renderForm() {
+    var info = state.info;
+    var services = h('div', { class: 'opts' }, info.services.map(function (s) {
+      return h('button', { type: 'button', class: 'opt', 'aria-pressed': state.service && state.service.id === s.id ? 'true' : 'false',
+        onclick: function () { state.service = s; state.error = ''; loadSlots(); } },
+        h('span', {}, h('b', { text: s.name }), h('small', { text: s.duration_min + ' minutes' })),
+        Number(s.price) > 0 ? h('span', { class: 'price', text: money(s.price) }) : null);
+    }));
+    if (!info.services.length) services = h('p', { class: 'hint', text: 'Online booking is not available right now. Please call us.' });
+
+    var types = h('div', { class: 'row3' }, ['home', 'hospital', 'shop'].map(function (t) {
+      return h('button', { type: 'button', class: 'opt', 'aria-pressed': state.visitType === t ? 'true' : 'false',
+        onclick: function () { state.visitType = t; render(); } }, VISIT[t]);
+    }));
+
+    var dateInput = h('input', { type: 'date', id: 'date', value: state.date, min: today(), max: plusDays(info.maxDaysAhead),
+      onchange: function (e) { state.date = e.target.value; loadSlots(); } });
+    var slotsEl = null;
+    if (state.loadingSlots) slotsEl = h('p', { class: 'hint', text: 'Checking free times…' });
+    else if (state.slotsMsg) slotsEl = h('div', { class: 'msg info', text: state.slotsMsg });
+    else if (state.slots) slotsEl = h('div', { class: 'slots' }, state.slots.map(function (t) {
+      return h('button', { type: 'button', class: 'slot', 'aria-pressed': state.time === t ? 'true' : 'false', onclick: function () { state.time = t; render(); } }, t);
+    }));
+    else if (state.service) slotsEl = h('p', { class: 'hint', text: 'Pick a date to see free times.' });
+    else slotsEl = h('p', { class: 'hint', text: 'Choose a service first.' });
+
+    var needsPlace = state.visitType === 'home' || state.visitType === 'hospital';
+    var ready = state.service && state.visitType && state.date && state.time;
+
+    var form = h('form', { novalidate: true, onsubmit: function (e) { e.preventDefault(); if (ready && !state.sending) submit(); } },
+      h('div', { class: 'card' }, h('h2', {}, h('span', { class: 'num', text: '1' }), 'Choose a service'), services),
+      h('div', { class: 'card' }, h('h2', {}, h('span', { class: 'num', text: '2' }), 'Where should we see you?'), types),
+      h('div', { class: 'card' }, h('h2', {}, h('span', { class: 'num', text: '3' }), 'Pick a date and time'),
+        h('label', { for: 'date', text: 'Date' }), dateInput, slotsEl,
+        h('p', { class: 'hint', text: 'Open ' + info.openTime + ' to ' + info.closeTime + ', Monday to Saturday. Times shown are free.' })),
+      h('div', { class: 'card' }, h('h2', {}, h('span', { class: 'num', text: '4' }), 'Your details'),
+        h('label', { for: 'name', text: 'Your name' }), h('input', { id: 'name', name: 'name', autocomplete: 'name', maxlength: 120 }),
+        h('label', { for: 'phone', text: 'Phone (WhatsApp)' }), h('input', { id: 'phone', name: 'phone', type: 'tel', inputmode: 'tel', autocomplete: 'tel', placeholder: '0712 345 678', maxlength: 20 }),
+        needsPlace ? h('label', { for: 'location', text: state.visitType === 'home' ? 'Address or landmark' : 'Hospital and ward' }) : null,
+        needsPlace ? h('input', { id: 'location', name: 'location', maxlength: 200 }) : null,
+        h('label', { for: 'notes', text: 'Anything we should know? (optional)' }),
+        h('textarea', { id: 'notes', name: 'notes', rows: 2, maxlength: 300 }),
+        h('p', { class: 'hint', text: 'Please do not write medical details here. We will ask you when we reply.' }),
+        h('div', { class: 'hp', 'aria-hidden': 'true' }, h('label', { for: 'website', text: 'Leave this empty' }), h('input', { id: 'website', name: 'website', tabindex: '-1', autocomplete: 'off' }))),
+      state.error ? h('div', { class: 'msg err', role: 'alert', text: state.error }) : null,
+      h('div', { style: 'margin-top:14px' }, h('button', { class: 'go', type: 'submit', disabled: !ready || state.sending, text: state.sending ? 'Sending…' : 'Send booking request' })),
+      !ready ? h('p', { class: 'hint', style: 'text-align:center', text: 'Choose a service, place, date and time to continue.' }) : null);
+
+    return h('div', { class: 'wrap' },
+      h('header', {}, h('h1', { text: 'Book a visit' }), h('p', { class: 'sub', text: info.business + ' · we confirm every request personally' })),
+      form);
+  }
+
+  // Re-rendering rebuilds the form, so keep what the person has typed.
+  function render() {
+    var keep = {};
+    var f = app.querySelector('form');
+    if (f) Array.prototype.forEach.call(f.elements, function (el) { if (el.name) keep[el.name] = el.value; });
+    var active = document.activeElement && document.activeElement.name;
+    var next = state.done ? renderDone() : renderForm();
+    app.replaceChildren(next);
+    var nf = app.querySelector('form');
+    if (nf) {
+      Object.keys(keep).forEach(function (k) { if (nf.elements[k]) nf.elements[k].value = keep[k]; });
+      if (active && nf.elements[active] && nf.elements[active].focus) nf.elements[active].focus();
+    }
+  }
+
+  if (!cfg.url || !cfg.key || String(cfg.url).indexOf('YOUR_') >= 0) {
+    app.replaceChildren(h('div', { class: 'wrap' }, h('div', { class: 'card' }, h('h1', { text: 'Not set up yet' }), h('p', { class: 'sub', text: 'config.js is missing the project URL or key.' }))));
+    return;
+  }
+  api({ action: 'info' }).then(function (r) {
+    if (!r.ok) { app.replaceChildren(h('div', { class: 'wrap' }, h('div', { class: 'card' }, h('h1', { text: 'Booking unavailable' }), h('p', { class: 'sub', text: r.data.error || 'Please try again later, or call us.' })))); return; }
+    state.info = r.data;
+    var brand = document.getElementById('brand'); if (brand && r.data.business) brand.textContent = r.data.business;
+    var q = new URLSearchParams(location.search);
+    var pre = r.data.services.filter(function (s) { return s.id === q.get('service'); })[0];
+    if (pre) {
+      state.service = pre;
+      var d = q.get('date') || '';
+      if (/^\d{4}-\d{2}-\d{2}$/.test(d) && d >= today() && d <= plusDays(r.data.maxDaysAhead)) state.date = d;
+      loadSlots();
+    } else render();
+  });
+})();
+</script>
+</body>
+</html>
